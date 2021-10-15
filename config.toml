@@ -1,0 +1,36 @@
+[system]
+host = ":8080"
+mode = "debug"
+
+[redis]
+host = "127.0.0.1"
+port = 6379
+password = ""
+
+[mysql]
+host = "127.0.0.1"
+port = 3306
+config = ""
+db_name = ""
+username = ""
+password = ""
+max_idle_conns = 10
+max_open_conns = 100
+log_mode = false
+log_zap = ""
+
+[zap]
+level = ""
+format = "console"
+prefix = ""
+director = "log"
+link_name = ""
+show_line = true
+encode_level = "LowercaseColorLevelEncoder"
+stacktrace_key = "stacktrace"
+log_in_console = true
+
+[jwt]
+signing_key = "puqiang"
+expire_time = 86400
+buffer_time = 86400
