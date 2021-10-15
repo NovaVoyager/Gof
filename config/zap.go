@@ -10,4 +10,7 @@ type Zap struct {
 	EncodeLevel   string `json:"encode_level" toml:"encode_level" mapstructure:"encode_level"`
 	StacktraceKey string `json:"stacktrace_key" toml:"stacktrace_key" mapstructure:"stacktrace_key"`
 	LogInConsole  bool   `json:"log_in_console" toml:"log_in_console" mapstructure:"log_in_console"`
+	MaxSize       int    `json:"max_size" toml:"max_size" mapstructure:"max_size"`
+	MaxAge        int    `json:"max_age" toml:"max_age" mapstructure:"max_age"`
+	MaxBackups    int    `json:"max_backups" toml:"max_backups" mapstructure:"max_backups"`
 }

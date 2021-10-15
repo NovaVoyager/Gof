@@ -21,7 +21,7 @@ log_zap = ""
 
 [zap]
 level = ""
-format = "console"
+format = "json"
 prefix = ""
 director = "log"
 link_name = ""
@@ -29,6 +29,9 @@ show_line = true
 encode_level = "LowercaseColorLevelEncoder"
 stacktrace_key = "stacktrace"
 log_in_console = true
+max_size = 100
+max_age = 7
+max_backups = 7
 
 [jwt]
 signing_key = "puqiang"
