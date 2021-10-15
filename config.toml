@@ -1,6 +1,6 @@
 [system]
 host = ":8080"
-mode = "debug"
+mode = "999"
 
 [redis]
 host = "127.0.0.1"
@@ -11,7 +11,7 @@ password = ""
 host = "127.0.0.1"
 port = 3306
 config = ""
-db_name = ""
+db_name = "blog"
 username = ""
 password = ""
 max_idle_conns = 10
