@@ -1,6 +1,7 @@
+#系统配置文件修改后需要手动重启服务
 [system]
 host = ":8080"
-mode = "debug"
+mode = "debug"  #debug release test
 
 [redis]
 host = "127.0.0.1"
