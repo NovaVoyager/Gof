@@ -1,6 +1,6 @@
 [system]
 host = ":8080"
-mode = "999"
+mode = "debug"
 
 [redis]
 host = "127.0.0.1"
