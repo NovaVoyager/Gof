@@ -16,12 +16,13 @@ var level zapcore.Level
 
 //LoadLog 加载日志
 func LoadLog() {
-	//创建log目录
-	if ok, _ := utils.PathExists(global.GofConfig.Zap.Director); !ok {
-		fmt.Printf("create %v directory\n", global.GofConfig.Zap.Director)
-		_ = os.Mkdir(global.GofConfig.Zap.Director, os.ModePerm)
-	}
+	checkWithCreateLogDir()
+	getLevelFromConf()
+	global.GofLog = getLogger()
+}
 
+//getLevelFromConf 在配置文件获取日志级别
+func getLevelFromConf() {
 	//初始化配置文件level
 	switch global.GofConfig.Zap.Level {
 	case "debug":
@@ -43,6 +44,46 @@ func LoadLog() {
 	}
 }
 
+//checkWithCreateLogDir 检查和创建日志目录
+func checkWithCreateLogDir() {
+	if ok, _ := utils.PathExists(global.GofConfig.Zap.Director); !ok {
+		fmt.Printf("create %v directory\n", global.GofConfig.Zap.Director)
+		_ = os.Mkdir(global.GofConfig.Zap.Director, os.ModePerm)
+	}
+}
+
+//getCore 获取zapcore
+func getCore() zapcore.Core {
+	writeSync := getLogWrite()
+	cores := []zapcore.Core{
+		zapcore.NewCore(getEncoder(), writeSync, level),
+	}
+	if global.GofConfig.Zap.LogInConsole {
+		consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
+		consoleCore := zapcore.NewCore(consoleEncoder, zapcore.Lock(os.Stdout), level)
+		cores = append(cores, consoleCore)
+	}
+	core := zapcore.NewTee(cores...)
+	return core
+}
+
+//getLogger 获取日志实例
+func getLogger() *zap.Logger {
+	core := getCore()
+	var logger *zap.Logger
+
+	if level == zap.DebugLevel || level == zap.ErrorLevel {
+		logger = zap.New(core, zap.AddStacktrace(level))
+	} else {
+		logger = zap.New(core)
+	}
+	if global.GofConfig.Zap.ShowLine {
+		logger = logger.WithOptions(zap.AddCaller())
+	}
+
+	return logger
+}
+
 //getEncodeConfig 获取日志编码配置
 func getEncodeConfig() zapcore.EncoderConfig {
 	config := zapcore.EncoderConfig{
@@ -51,14 +92,15 @@ func getEncodeConfig() zapcore.EncoderConfig {
 		TimeKey:        "time",
 		NameKey:        "logger",
 		CallerKey:      "caller",
+		FunctionKey:    zapcore.OmitKey,
 		StacktraceKey:  global.GofConfig.Zap.StacktraceKey,
 		LineEnding:     zapcore.DefaultLineEnding,
 		EncodeLevel:    zapcore.LowercaseLevelEncoder,
 		EncodeTime:     getCustomTimeFormat,
-		EncodeDuration: zapcore.SecondsDurationEncoder,
-		EncodeCaller:   zapcore.FullCallerEncoder,
+		EncodeDuration: zapcore.StringDurationEncoder,
+		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
-	switch {
+	/*switch {
 	case global.GofConfig.Zap.EncodeLevel == "LowercaseLevelEncoder": // 小写编码器(默认)
 		config.EncodeLevel = zapcore.LowercaseLevelEncoder
 	case global.GofConfig.Zap.EncodeLevel == "LowercaseColorLevelEncoder": // 小写编码器带颜色
@@ -69,7 +111,7 @@ func getEncodeConfig() zapcore.EncoderConfig {
 		config.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	default:
 		config.EncodeLevel = zapcore.LowercaseLevelEncoder
-	}
+	}*/
 	return config
 }
 
@@ -83,27 +125,16 @@ func getEncoder() zapcore.Encoder {
 
 //getCustomTimeFormat 获取自定义时间输出格式
 func getCustomTimeFormat(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
-	enc.AppendString(t.Format("2006/01/02 15:04:05"))
+	enc.AppendString(t.Format("2006/01/02 - 15:04:05.000"))
 }
 
-//getEncodeCore 获取zapcore
-func getEncodeCore() zapcore.Core {
+//getLogWrite 获取日志写入文件对象
+func getLogWrite() zapcore.WriteSyncer {
 	lumberJackLogger := lumberjack.Logger{
-		Filename:   path.Join(global.GofConfig.Zap.Director, "%Y-%m-%d.log"),
+		Filename:   path.Join(global.GofConfig.Zap.Director, "app.log"),
 		MaxSize:    global.GofConfig.Zap.MaxSize,
 		MaxAge:     global.GofConfig.Zap.MaxAge,
 		MaxBackups: global.GofConfig.Zap.MaxBackups,
 	}
-	writeSync := zapcore.AddSync(&lumberJackLogger)
-
-	cores := []zapcore.Core{
-		zapcore.NewCore(getEncoder(), writeSync, level),
-	}
-	if global.GofConfig.Zap.LogInConsole {
-		consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
-		consoleCore := zapcore.NewCore(consoleEncoder, zapcore.Lock(os.Stdout), level)
-		cores = append(cores, consoleCore)
-	}
-
-	core := zapcore.NewTee(cores...)
+	return zapcore.AddSync(&lumberJackLogger)
 }
