@@ -20,7 +20,7 @@ log_mode = "warn"
 log_zap = true
 
 [zap]
-level = "debug"
+level = "debug" #debug info warn error dpanic panic fatal
 format = "json"
 prefix = ""
 director = "log"

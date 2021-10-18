@@ -16,8 +16,8 @@ import (
 )
 
 var (
-	Discard = New(log.New(ioutil.Discard, "", log.LstdFlags), config{})
-	Default = New(log.New(os.Stdout, "\r\n", log.LstdFlags), config{
+	Discard = New(log.New(ioutil.Discard, "", log.LstdFlags), dbConfig{})
+	Default = New(log.New(os.Stdout, "\r\n", log.LstdFlags), dbConfig{
 		SlowThreshold: 200 * time.Millisecond,
 		LogLevel:      logger.Warn,
 		Colorful:      true,
@@ -74,13 +74,13 @@ func gormConfig() *gorm.Config {
 	return conf
 }
 
-type config struct {
+type dbConfig struct {
 	SlowThreshold time.Duration
 	Colorful      bool
 	LogLevel      logger.LogLevel
 }
 
-func New(writer logger.Writer, config config) logger.Interface {
+func New(writer logger.Writer, config dbConfig) logger.Interface {
 	var (
 		infoStr      = "%s\n[info] "
 		warnStr      = "%s\n[warn] "
@@ -101,7 +101,7 @@ func New(writer logger.Writer, config config) logger.Interface {
 
 	return &_logger{
 		Writer:       writer,
-		config:       config,
+		dbConfig:     config,
 		infoStr:      infoStr,
 		warnStr:      warnStr,
 		errStr:       errStr,
@@ -112,7 +112,7 @@ func New(writer logger.Writer, config config) logger.Interface {
 }
 
 type _logger struct {
-	config
+	dbConfig
 	logger.Writer
 	infoStr, warnStr, errStr            string
 	traceStr, traceErrStr, traceWarnStr string
