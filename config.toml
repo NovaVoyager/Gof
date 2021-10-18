@@ -38,3 +38,7 @@ max_backups = 7
 signing_key = "puqiang"
 expire_time = 86400
 buffer_time = 86400
+
+[mongodb]
+host = "127.0.0.1"
+port = 27017

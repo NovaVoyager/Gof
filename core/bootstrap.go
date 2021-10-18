@@ -10,4 +10,5 @@ func Bootstrap() {
 	initialize.LoadLog()
 	initialize.LoadDb()
 	initialize.LoadRedis()
+	initialize.LoadMongodb()
 }

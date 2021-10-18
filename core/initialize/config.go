@@ -34,5 +34,6 @@ func LoadConfig() {
 		LoadLog()
 		LoadDb()
 		LoadRedis()
+		LoadMongodb()
 	})
 }
