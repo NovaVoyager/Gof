@@ -33,5 +33,6 @@ func LoadConfig() {
 		}
 		LoadLog()
 		LoadDb()
+		LoadRedis()
 	})
 }
