@@ -7,4 +7,5 @@ import (
 func Bootstrap() {
 	initialize.LoadConfig()
 	initialize.LoadLog()
+	initialize.LoadDb()
 }

@@ -26,10 +26,12 @@ func LoadConfig() {
 	//监听配置文件变化
 	viper.WatchConfig()
 	viper.OnConfigChange(func(in fsnotify.Event) {
-		fmt.Println("config edit", time.Now().Format("2016-01-02 15:04:05"))
+		fmt.Println("config edit", time.Now().Format("2006-01-02 15:04:05"))
 		err = viper.Unmarshal(&global.GofConfig)
 		if err != nil {
 			panic(fmt.Errorf("Unmarshal config error:%s \n", err))
 		}
+		LoadLog()
+		LoadDb()
 	})
 }

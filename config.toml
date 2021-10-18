@@ -10,17 +10,17 @@ password = ""
 [mysql]
 host = "127.0.0.1"
 port = 3306
-config = ""
+config = "charset=utf8mb4&parseTime=True&loc=Local"
 db_name = "blog"
-username = ""
-password = ""
+username = "root"
+password = "123456"
 max_idle_conns = 10
 max_open_conns = 100
-log_mode = false
-log_zap = ""
+log_mode = "warn"
+log_zap = true
 
 [zap]
-level = ""
+level = "debug"
 format = "json"
 prefix = ""
 director = "log"

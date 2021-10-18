@@ -9,6 +9,6 @@ type Mysql struct {
 	Password     string `json:"password" toml:"password" mapstructure:"password"`
 	MaxIdleConns int    `json:"max_idle_conns" toml:"max_idle_conns" mapstructure:"max_idle_conns"`
 	MaxOpenConns int    `json:"max_open_conns" toml:"max_open_conns" mapstructure:"max_open_conns"`
-	LogMode      bool   `json:"log_mode" toml:"log_mode" mapstructure:"log_mode"`
-	LogZap       string `json:"log_zap" toml:"log_zap" mapstructure:"log_zap"`
+	LogMode      string `json:"log_mode" toml:"log_mode" mapstructure:"log_mode"`
+	LogZap       bool   `json:"log_zap" toml:"log_zap" mapstructure:"log_zap"`
 }
