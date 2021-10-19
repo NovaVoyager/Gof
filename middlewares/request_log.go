@@ -27,9 +27,11 @@ func RequestLog() gin.HandlerFunc {
 			global.GofLog.Warn("get request body failed,err:", zap.Error(err))
 		}
 		bodyMap := make(map[string]interface{})
-		err = json.Unmarshal(body, &bodyMap)
-		if err != nil {
-			global.GofLog.Warn("body Unmarshal failed,err:", zap.Error(err))
+		if len(body) > 0 {
+			err = json.Unmarshal(body, &bodyMap)
+			if err != nil {
+				global.GofLog.Warn("body Unmarshal failed,err:", zap.Error(err))
+			}
 		}
 		global.GofLog.Info("request log",
 			zap.String("host", host),

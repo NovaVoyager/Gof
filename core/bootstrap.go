@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/miaogu-go/Gof/core/initialize"
 	"github.com/miaogu-go/Gof/global"
+	"github.com/miaogu-go/Gof/router"
 	"net/http"
 	"time"
 )
@@ -22,6 +23,9 @@ func Bootstrap() {
 func runServer() {
 	gin.SetMode(global.GofConfig.System.Mode)
 	ginEngine := initialize.RegisterRouter()
+	//加载路由
+	routeGroup := ginEngine.Group("")
+	router.RouteBootstrap(routeGroup)
 	/*s := initServer(global.GofConfig.System.Host, ginEngine)
 	global.GofLog.Error(s.ListenAndServe().Error())*/
 	global.GofLog.Error(ginEngine.Run(global.GofConfig.System.Host).Error())
