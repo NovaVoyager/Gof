@@ -14,7 +14,7 @@ func (this *Test) Add(ctx *gin.Context) {
 	//this.OkWithMessage(ctx,"aaaaa")
 	//this.OkWithData(ctx,map[string]string{"test":"this is a test request"})
 	//this.OkWithData(ctx,S{Msg: "aaaaaaaaa"})
-	//this.OkWithDetailed(ctx,"res",map[string]interface{}{"key":100})
+	this.OkWithDetailed(ctx, "res", map[string]interface{}{"key": 100})
 	//this.Failed(ctx)
 	//this.FailWithMessage(ctx,"aaaaa")
 	//this.FailWithDetailed(ctx,"err",map[string]interface{}{"key":"value","age":100})
