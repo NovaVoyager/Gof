@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/miaogu-go/Gof/global"
+	"github.com/miaogu-go/Gof/utils"
 	"go.uber.org/zap"
 	"io/ioutil"
 )
@@ -22,6 +23,7 @@ func RequestLog() gin.HandlerFunc {
 		method := ctx.Request.Method
 		proto := ctx.Request.Proto
 		ip := ctx.ClientIP()
+		pid := utils.GetPid()
 		path := ctx.Request.URL.Path
 		if err != nil {
 			global.GofLog.Warn("get request body failed,err:", zap.Error(err))
@@ -42,6 +44,7 @@ func RequestLog() gin.HandlerFunc {
 			zap.String("proto", proto),
 			zap.Any("head", ctx.Request.Header),
 			zap.String("ip", ip),
+			zap.Int("pid", pid),
 			zap.Any("body", bodyMap),
 		)
 	}
