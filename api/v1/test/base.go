@@ -1,7 +1,9 @@
 package test
 
-import "github.com/miaogu-go/Gof/utils"
+import (
+	"github.com/miaogu-go/Gof/utils/response"
+)
 
 type base struct {
-	utils.Response
+	response.Response
 }

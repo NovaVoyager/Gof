@@ -3,6 +3,7 @@ module github.com/miaogu-go/Gof
 go 1.15
 
 require (
+	github.com/BurntSushi/toml v0.4.1
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-playground/validator/v10 v10.9.0 // indirect

@@ -1,4 +1,4 @@
-package utils
+package response
 
 import (
 	"github.com/gin-gonic/gin"
@@ -106,5 +106,17 @@ func (this *Response) Fail401(ctx *gin.Context, msg string) {
 	this.resp.Code = Error
 	this.resp.Msg = this.defaultFailMsg(msg)
 	this.httpCode = http.StatusUnauthorized
+	this.result(ctx)
+}
+
+func (this *Response) Error(ctx *gin.Context, err error) {
+	respErr, ok := err.(*RespError)
+	if !ok {
+		this.resp.Code = Error
+		this.resp.Msg = this.defaultFailMsg("")
+	} else {
+		this.resp.Code = respErr.Code
+		this.resp.Msg = this.defaultFailMsg(respErr.Msg)
+	}
 	this.result(ctx)
 }
