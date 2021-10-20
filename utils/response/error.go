@@ -18,9 +18,13 @@ func (this *RespError) String() string {
 }
 
 //RegisterErrno 注册errno
-func RegisterErrno(errno string, msg []string) error {
+func RegisterErrno(errno string, message []string) error {
+	msg := ""
+	if len(message) > 0 {
+		msg = message[0]
+	}
 	return &RespError{
 		Code: errno,
-		Msg:  msg[0],
+		Msg:  msg,
 	}
 }
