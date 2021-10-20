@@ -41,6 +41,8 @@ func RequestLog() gin.HandlerFunc {
 		//生成traceId
 		traceId := utils.GenerateTraceId()
 		ctx.Set(TraceIdKey, traceId)
+		//统计接口请求耗时
+		costTime := utils.TimeCost()
 		ctx.Next()
 
 		host := ctx.Request.Host
@@ -77,6 +79,7 @@ func RequestLog() gin.HandlerFunc {
 			zap.Any("head", ctx.Request.Header),
 			zap.String("ip", ip),
 			zap.String("trace_id", traceId),
+			zap.String("cost_time", costTime()),
 			zap.Int("pid", pid),
 			zap.Any("request_body", bodyMap),
 			zap.Any("response_body", respMap),
