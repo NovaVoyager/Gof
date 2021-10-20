@@ -10,6 +10,10 @@ import (
 	"io/ioutil"
 )
 
+const (
+	TraceIdKey = "trace_id"
+)
+
 //bodyLogWrite response结果存储
 type bodyLogWrite struct {
 	gin.ResponseWriter
@@ -34,6 +38,9 @@ func RequestLog() gin.HandlerFunc {
 		//记录响应结果
 		blw := &bodyLogWrite{ResponseWriter: ctx.Writer, body: bytes.NewBufferString("")}
 		ctx.Writer = blw
+		//生成traceId
+		traceId := utils.GenerateTraceId()
+		ctx.Set(TraceIdKey, traceId)
 		ctx.Next()
 
 		host := ctx.Request.Host
@@ -69,6 +76,7 @@ func RequestLog() gin.HandlerFunc {
 			zap.String("proto", proto),
 			zap.Any("head", ctx.Request.Header),
 			zap.String("ip", ip),
+			zap.String("trace_id", traceId),
 			zap.Int("pid", pid),
 			zap.Any("request_body", bodyMap),
 			zap.Any("response_body", respMap),

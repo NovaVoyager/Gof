@@ -10,6 +10,8 @@ const (
 	Success        = "0"
 	DefaultOkMsg   = "ok"
 	DefaultFailMsg = "error"
+
+	TraceIdKey = "trace_id"
 )
 
 //ResponseData 响应返回数据
@@ -52,6 +54,13 @@ func (this *Response) result(ctx *gin.Context) {
 	if this.resp.Data == nil {
 		this.resp.Data = struct{}{}
 	}
+	traceId, ok := ctx.Get(TraceIdKey)
+	traceIdStr := ""
+	if ok {
+		traceIdStr, _ = traceId.(string)
+
+	}
+	this.resp.TraceId = traceIdStr
 	ctx.JSON(this.httpCode, this.resp)
 }
 
