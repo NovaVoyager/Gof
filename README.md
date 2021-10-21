@@ -20,3 +20,24 @@
 > go run main.go
 
 ### 目录结构
+```
+├── Gof
+    ├── api                   (控制器层)
+    │   └── v1                (v1版本接口)
+    ├── config                (配置结构体)
+    ├── core                  (核心文件)
+    │	├── initialize        (初始化文件)
+    │	└── bootstrap.go      (启动入口文件)
+    ├── global                (全局对象)                                                
+    ├── middleware            (中间件层)                        
+    ├── model                 (模型层)                    
+    │   ├── common            (公共结构体)
+    │   ├── dao               (数据库结构体层)
+    │   ├── data              (公共数据组装层——函数复用)
+    │   └── service           (服务层)                           
+    ├── resource              (资源层)
+    │   └── errno             (错误码注册)                     
+    ├── router                (路由层)    
+    │   └── bootstrap.go      (路由启动文件)               
+    └── utils                 (工具包)       
+```
