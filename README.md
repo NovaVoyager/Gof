@@ -10,6 +10,8 @@
 ### 使用说明
 
 > golang 版本 >= 1.15
+> 设置 GO111MODULE=on
+> 设置代理 GOPROXY=https://goproxy.cn,direct
 
 **安装**
 
@@ -19,7 +21,10 @@
 
 > go run main.go
 
+**注意：**在运行前请先设置好 config.toml 里对应的值
+
 ### 目录结构
+
 ```
 ├── Gof
     ├── api                   (控制器层)
