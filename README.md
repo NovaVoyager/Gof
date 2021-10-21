@@ -21,7 +21,7 @@
 
 > go run main.go
 
-**注意：**在运行前请先设置好 config.toml 里对应的值
+**注意：** 在运行前请先设置好 config.toml 里对应的值
 
 ### 目录结构
 
